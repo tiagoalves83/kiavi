@@ -1,24 +1,37 @@
+
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Configuration
 
-Things you may want to cover:
+To setup your local development environment do the following commands:
 
-* Ruby version
+    git clone https://github.com/tiagoalves83/kiavi.git
+    cd kiavi
+    docker compose run --rm -u root web bash -c "mkdir -p /bundle/vendor && chown railsuser /bundle/vendor" 
+    docker compose run --rm web bash
 
-* System dependencies
+Inside the docker container run the following codes
 
-* Configuration
+    bundle install 
+    bundle exec rake db:create
+    bundle exec rake db:migrate
+    bundle exec rake db:seed
+    bundle exec rails spina:install
+    exit 
 
-* Database creation
+And finally start your dev environment
 
-* Database initialization
+    docker compose up 
 
-* How to run the test suite
+You can access SpinaCMS at http://localhost:3000 and  http://localhost:3000/admin
+You also can query PostgreSQL database using Adminer at http://localhost:8080 using "*postgres*" / "*postgres*" as credentials and "*db*" as host.
 
-* Services (job queues, cache servers, search engines, etc.)
+### Issues
+If running any issues try to replace user id and group id by the current user/group id in the web container inside *compose.yaml* file. To check your user / group id, just run the "*id*" in linux/osx terminal.
 
-* Deployment instructions
+    services:
+      web:
+        ...
+        user: "1000:1000"
 
-* ...
+
